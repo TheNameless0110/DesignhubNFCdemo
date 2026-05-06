@@ -117,6 +117,7 @@ export default function App() {
   const [expandedService, setExpandedService] = useState(null);
   const [quoteService, setQuoteService] = useState(null);
   const [toastMsg, setToastMsg] = useState('');
+  const [toastVisible, setToastVisible] = useState(false);
   
   // Theme State
   const themeKeys = Object.keys(THEMES);
@@ -194,9 +195,14 @@ END:VCARD`;
           files: [file],
           title: 'Design Hub Contact',
         });
+        showToast("Contact shared successfully!");
         return;
       } catch (err) {
-        console.log("Share API failed or was cancelled.", err);
+        if (err.name === 'AbortError') {
+          // User dismissed the share sheet — do nothing silently
+          return;
+        }
+        console.log("Share API failed, trying fallback.", err);
       }
     }
 
@@ -209,7 +215,7 @@ END:VCARD`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      showToast("Opening Contacts...");
+      showToast("Opening Contacts app...");
       return;
     }
 
@@ -222,7 +228,7 @@ END:VCARD`;
     link.click();
     document.body.removeChild(link);
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    showToast("Contact downloaded!");
+    showToast("Contact card downloaded!");
   };
 
   // --- Feature: Share Profile ---
@@ -263,7 +269,11 @@ END:VCARD`;
 
   const showToast = (message) => {
     setToastMsg(message);
-    setTimeout(() => setToastMsg(''), 3000);
+    setToastVisible(true);
+    setTimeout(() => {
+      setToastVisible(false);
+      setTimeout(() => setToastMsg(''), 400); // clear text after fade-out
+    }, 3000);
   };
 
   return (
@@ -504,8 +514,11 @@ END:VCARD`;
 
       {/* --- TOAST NOTIFICATION --- */}
       {toastMsg && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 clay-container bg-[var(--text)] text-[var(--bg)] px-6 py-3 rounded-full font-black text-sm animate-in slide-in-from-bottom-4 flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-[var(--accent-2)]" strokeWidth={3} />
+        <div
+          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 clay-container bg-[var(--text)] text-[var(--bg)] px-6 py-3 rounded-full font-black text-sm flex items-center gap-2 whitespace-nowrap"
+          style={{ animation: toastVisible ? 'toastSlideIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards' : 'toastSlideOut 0.35s ease-in forwards' }}
+        >
+          <CheckCircle2 className="w-4 h-4 text-[var(--accent-2)] flex-shrink-0" strokeWidth={3} />
           {toastMsg}
         </div>
       )}
@@ -513,6 +526,15 @@ END:VCARD`;
       {/* --- GLOBAL CSS FOR CLAYMORPHISM & MOBILE OPTIMIZATION --- */}
       <style dangerouslySetInnerHTML={{__html: `
         * { -webkit-tap-highlight-color: transparent; }
+
+        @keyframes toastSlideIn {
+          0%   { opacity: 0; transform: translateX(-50%) translateY(24px) scale(0.9); }
+          100% { opacity: 1; transform: translateX(-50%) translateY(0)   scale(1);   }
+        }
+        @keyframes toastSlideOut {
+          0%   { opacity: 1; transform: translateX(-50%) translateY(0)   scale(1);   }
+          100% { opacity: 0; transform: translateX(-50%) translateY(16px) scale(0.9); }
+        }
         
         .visibility-hidden { visibility: hidden; }
 
