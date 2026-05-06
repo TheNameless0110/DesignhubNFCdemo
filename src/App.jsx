@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { 
-  Layers, SmartphoneNfc, PenTool, IdCard, 
+  Layers, SmartphoneNfc, PenTool, CreditCard, 
   Mail, Phone, Globe, 
   Instagram, Linkedin, Twitter, Dribbble, 
   Download, Share2, QrCode, CheckCircle2,
@@ -41,7 +41,7 @@ export default function App() {
     { 
       id: 'print',
       title: "Print Media", 
-      icon: IdCard, 
+      icon: CreditCard, 
       clayColor: "bg-[#D4A373]",
       desc: "Classic, high-end paper business cards and collateral with luxury finishes that make a lasting physical impression.",
       features: ["Premium Cardstock", "Spot UV Textures", "Foil Stamping", "Embossed Finishes"],
