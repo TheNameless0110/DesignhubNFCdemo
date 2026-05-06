@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  Layers, SmartphoneNfc, PenTool, IdCard, 
-  Mail, Phone, Globe, 
-  Instagram, Linkedin, Twitter, Dribbble, 
+  Layers, SmartphoneNfc, PenTool, Contact, 
+  Mail, Phone, Globe, Camera,
   Download, Share2, CheckCircle2,
   Sparkles, Plus, Minus, X, Palette, ChevronLeft, ChevronRight
 } from 'lucide-react';
@@ -151,7 +150,7 @@ export default function App() {
     { 
       id: 'print',
       title: "Print Media", 
-      icon: IdCard, 
+      icon: Contact, 
       clayColor: "bg-[var(--accent-4)]",
       desc: "Classic, high-end paper business cards and collateral with luxury finishes that make a lasting physical impression.",
       features: ["Premium Cardstock", "Spot UV Textures", "Foil Stamping"],
@@ -364,7 +363,7 @@ END:VCARD`;
 
           <a href="https://www.instagram.com/creativedigitalstudio_official?igsh=MWNqdHNjd2duOXUxbw==" target="_blank" rel="noreferrer" className="flex items-center gap-3 sm:gap-4 bg-[var(--bg)] p-2.5 sm:p-3 rounded-xl sm:rounded-2xl clay-inset-card group transition-all hover:bg-[var(--bg-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-3)]">
             <div className="bg-[var(--bg)] p-2.5 sm:p-3 rounded-lg sm:rounded-xl clay-icon">
-              <Instagram className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-muted)] group-hover:text-[var(--accent-3)] transition-colors" strokeWidth={2.5} />
+              <Camera className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-muted)] group-hover:text-[var(--accent-3)] transition-colors" strokeWidth={2.5} />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-black text-sm sm:text-base text-[var(--text)]">Instagram</p>
